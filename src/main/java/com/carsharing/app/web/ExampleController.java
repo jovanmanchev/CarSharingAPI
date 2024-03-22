@@ -8,6 +8,6 @@ public class ExampleController {
 
     @GetMapping("/test")
     public String testAPI() {
-        return "API is up and running!";
+        return "API is up and running!!";
     }
 }
