@@ -1,0 +1,9 @@
+services:
+  database:
+    image: 'postgres:15.2'
+    ports:
+      - '15432:5432'
+    environment:
+      - 'POSTGRES_USER=dev'
+      - 'POSTGRES_DB=carsharingdb'
+      - 'POSTGRES_PASSWORD=dev123'
