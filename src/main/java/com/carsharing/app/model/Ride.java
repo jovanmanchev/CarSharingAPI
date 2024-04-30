@@ -24,7 +24,7 @@ public class Ride {
     private LocalDateTime timeTo;
     private int pricePerPerson;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Driver driver;
 
     @ManyToMany

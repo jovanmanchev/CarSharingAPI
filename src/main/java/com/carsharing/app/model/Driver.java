@@ -1,5 +1,6 @@
 package com.carsharing.app.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,9 +23,8 @@ public class Driver {
     private String phoneNumber;
     private String bio;
 
-    // preferences ?
-    
-    @OneToOne
-    @JoinColumn(name = "car_id", referencedColumnName = "id")
-    private Car car;
+// Changed to ManyToOne due to infinite loop in json output of rides on /api/drivers/{id}/rides
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JsonManagedReference
+//    private Car car;
 }

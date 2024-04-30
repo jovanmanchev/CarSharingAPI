@@ -1,6 +1,7 @@
 package com.carsharing.app.model;
 
 import com.carsharing.app.enums.CarLuggageEnum;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(mappedBy = "car")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Driver driver;
 
     private String model;
