@@ -20,6 +20,7 @@ public class RideServiceImpl implements RideService {
     private final RideRepository rideRepository;
     private final DriverRepository driverRepository;
 
+    // Driver Functionalities - CRUD
     @Override
     public Ride createRide(RideCreationDto rideCreationDto, Long driverId) {
         Driver driver = driverRepository.findById(driverId).orElseThrow(() -> new RuntimeException("Driver not found"));
@@ -67,14 +68,15 @@ public class RideServiceImpl implements RideService {
         return rideRepository.save(ride);
     }
 
-
     @Override
     public void deleteRide(Long rideId, Long driverId) {
-        rideRepository.deleteById(rideId);
+        Ride ride = rideRepository.findById(rideId).orElseThrow(() -> new RuntimeException("Ride not found"));
+        rideRepository.delete(ride);
     }
 
+    // Passenger Functionalities
     @Override
     public List<Ride> searchRides(String startLocation, String destination, LocalDateTime departure) {
-        return null;
+        return rideRepository.findAllByLocationFromAndLocationToAndTimeFromGreaterThanEqual(startLocation,destination,departure);
     }
 }

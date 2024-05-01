@@ -34,5 +34,15 @@ public class DriverController {
         return ResponseEntity.ok(updatedRide);
     }
 
+    @DeleteMapping("/{rideId}")
+    public ResponseEntity<Ride> cancelRide(@PathVariable Long rideId, @PathVariable Long driverId){
+        rideService.deleteRide(rideId,driverId);
+        return ResponseEntity.noContent().build();
+    }
 
+    // see all requests from passengers
+
+    // handle requests from passengers (add to ride or ignore)
+
+    // past rides and current rides different endpoints
 }
