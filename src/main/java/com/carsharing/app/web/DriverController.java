@@ -44,9 +44,6 @@ public class DriverController {
         return ResponseEntity.noContent().build();
     }
 
-    // see all requests from passengers
-
-    // handle requests from passengers (add to ride or ignore)
 
 
 

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Setter
 @Getter
@@ -21,4 +23,8 @@ public class Passenger {
 
     private float rating;
     private String phoneNumber;
+
+    @OneToMany(mappedBy = "passenger")
+    private List<Request> requests;
+
 }
