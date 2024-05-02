@@ -1,17 +1,21 @@
 package com.carsharing.app.web;
 
 import com.carsharing.app.dto.RideCreationDto;
+import com.carsharing.app.dto.RideResponseDto;
+import com.carsharing.app.dto.RidesForDriverResponseDto;
+import com.carsharing.app.exceptions.DriverNotFoundException;
 import com.carsharing.app.model.Ride;
 import com.carsharing.app.service.RideService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/drivers/{driverId}")
+@RequestMapping("api/drivers/")
 @AllArgsConstructor
 public class DriverController {
     private final RideService rideService;
@@ -44,5 +48,7 @@ public class DriverController {
 
     // handle requests from passengers (add to ride or ignore)
 
-    // past rides and current rides different endpoints
+
+
+
 }
