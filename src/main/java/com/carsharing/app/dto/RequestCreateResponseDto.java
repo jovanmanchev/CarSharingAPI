@@ -9,5 +9,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RequestCreateResponseDto {
 
-    String message;
+    private long Id;
 }
