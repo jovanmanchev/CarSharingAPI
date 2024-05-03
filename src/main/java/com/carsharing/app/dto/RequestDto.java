@@ -2,7 +2,11 @@ package com.carsharing.app.dto;
 
 import com.carsharing.app.model.Passenger;
 import com.carsharing.app.model.Ride;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class RequestDto {
 
 

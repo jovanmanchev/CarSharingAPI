@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.mockito.Mockito.*;
 
 import com.carsharing.app.dto.RideCreationDto;
+import com.carsharing.app.helper.Helper;
 import com.carsharing.app.model.Ride;
 import com.carsharing.app.service.RideService;
 import com.carsharing.app.web.DriverController;
@@ -59,7 +60,7 @@ public class DriverControllerTest {
 
         mockMvc.perform(post("/api/drivers/createRide/" + driverId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(rideDto))
+                        .content(Helper.asJsonString(rideDto))
                 )
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(ride.getId()));
@@ -75,7 +76,7 @@ public class DriverControllerTest {
 
         mockMvc.perform(put("/api/drivers/{rideId}/{driverId}", rideId, driverId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(rideDto)))
+                        .content(Helper.asJsonString(rideDto)))
 
                 .andExpect(status().isOk());
     }
@@ -88,16 +89,6 @@ public class DriverControllerTest {
 
         mockMvc.perform(delete("/api/drivers/{rideId}/{driverId}", rideId, driverId))
                 .andExpect(status().isNoContent());
-    }
-    public static String asJsonString(final Object obj) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.registerModule(new JavaTimeModule());
-            mapper.findAndRegisterModules();
-            return mapper.writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
 
