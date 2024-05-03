@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/api/v1/test")
+@RequestMapping("/api/test")
 public class TestAuthController {
 
     @GetMapping("/anon")
@@ -27,6 +27,7 @@ public class TestAuthController {
     }
 
     @GetMapping("/admins")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String adminsEndPoint() {
         return "ONLY admins can see this";
     }
