@@ -20,32 +20,28 @@ import java.util.List;
 public class DriverController {
     private final RideService rideService;
 
-    @GetMapping("/rides")
+    @GetMapping("/rides/{driverId}")
     public ResponseEntity<List<Ride>> getAllRidesForDriver(@PathVariable Long driverId){
         List<Ride> rides = rideService.findAllByDriver(driverId);
         return ResponseEntity.ok(rides);
     }
 
-    @PostMapping("/createRide")
+    @PostMapping("/createRide/{driverId}")
     public ResponseEntity<Ride> createRide(@RequestBody RideCreationDto rideDto, @PathVariable Long driverId) {
         Ride ride = rideService.createRide(rideDto, driverId);
         return new ResponseEntity<>(ride, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{rideId}")
+    @PutMapping("/{rideId}/{driverId}")
     public ResponseEntity<Ride> updateRide(@PathVariable Long rideId, @RequestBody RideCreationDto rideDto, @PathVariable Long driverId) {
         Ride updatedRide = rideService.updateRide(rideId, rideDto, driverId);
         return ResponseEntity.ok(updatedRide);
     }
 
-    @DeleteMapping("/{rideId}")
+    @DeleteMapping("/{rideId}/{driverId}")
     public ResponseEntity<Ride> cancelRide(@PathVariable Long rideId, @PathVariable Long driverId){
         rideService.deleteRide(rideId,driverId);
         return ResponseEntity.noContent().build();
     }
-
-
-
-
 
 }
