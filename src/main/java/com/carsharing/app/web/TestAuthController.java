@@ -7,17 +7,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/test")
-public class TestController {
+public class TestAuthController {
 
     @GetMapping("/anon")
     public String anonEndPoint() {
         return "everyone can see this";
     }
 
-    @GetMapping("/users")
-    @PreAuthorize("hasRole('DRIVER')")
-    public String usersEndPoint() {
-        return "ONLY users can see this";
+    @GetMapping("/drivers")
+    @PreAuthorize("hasRole('ROLE_DRIVER')")
+    public String driverEndPoint() {
+        return "ONLY drivers can see this";
+    }
+
+    @GetMapping("/passenger")
+    @PreAuthorize("hasRole('ROLE_PASSENGER')")
+    public String passengerEndPoint() {
+        return "ONLY passenger can see this";
     }
 
     @GetMapping("/admins")

@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 
+import static java.lang.Character.toUpperCase;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -33,7 +35,7 @@ public class AuthenticationService {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .encryptedPassword(passwordEncoder.encode(request.getPassword()))
-                .userTypeEnum(UserTypeEnum.ADMIN)
+                .userTypeEnum(UserTypeEnum.valueOf(request.getType().toUpperCase()))
                 .build();
 
         user = userService.save(user);
