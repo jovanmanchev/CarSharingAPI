@@ -10,4 +10,5 @@ import java.util.List;
 public interface RequestRepository extends JpaRepository<Request, Long> {
 
     List<Request> findAllByRide_Driver_Id(Long driverId);
+    List<Request> findRequestByPassengerId(Long passengerId);
 }

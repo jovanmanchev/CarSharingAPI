@@ -1,9 +1,7 @@
 package com.carsharing.app.service.impl;
 
-import com.carsharing.app.dto.RequestCreateDto;
-import com.carsharing.app.dto.RequestCreateResponseDto;
-import com.carsharing.app.dto.RequestDto;
-import com.carsharing.app.dto.RequestsForDriverDto;
+import com.carsharing.app.dto.*;
+import com.carsharing.app.enums.RequestStatusEnum;
 import com.carsharing.app.exceptions.DriverNotFoundException;
 import com.carsharing.app.exceptions.PassengerNotFoundException;
 import com.carsharing.app.exceptions.RideNotFoundException;
@@ -20,6 +18,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,12 +43,8 @@ public class RequestServiceImpl implements RequestService {
         Request request = new Request();
         request.setRide(ride);
         request.setPassenger(passenger);
-
+        request.setStatus(RequestStatusEnum.PENDING);
         request = requestRepository.save(request);
-        List<Passenger> passengerList = ride.getPassengers();
-        passengerList.add(passenger);
-
-        rideRepository.save(ride);
 
         return new RequestCreateResponseDto(request.getId());
 
@@ -64,7 +59,7 @@ public class RequestServiceImpl implements RequestService {
         List<RequestDto> requestList = requestRepository.findAllByRide_Driver_Id(driverId)
                 .stream()
                 .map(request -> {
-                    return RequestDto.createRequestDto(request.getPassenger(), request.getRide());
+                    return RequestDto.createRequestDto(request);
                 })
                 .collect(Collectors.toList());
 
@@ -73,7 +68,63 @@ public class RequestServiceImpl implements RequestService {
         return requestsForDriverDto;
     }
 
+    @Override
+    public RequestsForPassengerDto getRequestsForPassenger(Long passengerId) throws PassengerNotFoundException {
+        Passenger passenger = this.passengerRepository.findById(passengerId).orElseThrow(() -> new PassengerNotFoundException("Passenger not found"));
 
+        List<RequestDto> requestList = requestRepository.findRequestByPassengerId(passengerId)
+                .stream()
+                .map(RequestDto::createRequestDto)
+                .collect(Collectors.toList());
+
+        RequestsForPassengerDto requestsForPassengerDto = new RequestsForPassengerDto();
+        requestsForPassengerDto.setRequests(requestList);
+        return requestsForPassengerDto;
+    }
+
+    @Override
+    public RequestAcceptDto acceptRequest(Long requestId, Long driverId) {
+
+
+        Request request = this.requestRepository.findById(requestId).orElseThrow(() -> new RuntimeException("Request not found"));
+        if(!Objects.equals(request.getRide().getDriver().getId(), driverId))
+           throw  new RuntimeException("The request is not for this driver");
+
+        if(request.getStatus().equals(RequestStatusEnum.IGNORED))
+            throw  new RuntimeException("The request is already ignored");
+        Ride ride = request.getRide();
+
+        List<Passenger> passengers = ride.getPassengers();
+        passengers.add(request.getPassenger());
+        request.setStatus(RequestStatusEnum.ACCEPTED);
+        this.rideRepository.save(ride);
+
+
+
+        return new RequestAcceptDto("Succesfully accepted");
+    }
+
+    @Override
+    public RequestAcceptDto ignoreRequest(Long requestId, Long driverId) {
+        Request request = this.requestRepository.findById(requestId).orElseThrow(() -> new RuntimeException("Request not found"));
+
+        if(!Objects.equals(request.getRide().getDriver().getId(), driverId))
+            throw  new RuntimeException("The request is not for this driver");
+
+        if(request.getStatus().equals(RequestStatusEnum.ACCEPTED))
+            throw  new RuntimeException("The request is already accepted");
+
+        Ride ride = request.getRide();
+
+        List<Passenger> passengers = ride.getPassengers();
+        passengers.add(request.getPassenger());
+        request.setStatus(RequestStatusEnum.IGNORED);
+        this.rideRepository.save(ride);
+
+
+
+        return new RequestAcceptDto("Succesfully ignored");
+    }
 
 
 }
