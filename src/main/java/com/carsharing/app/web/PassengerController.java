@@ -1,14 +1,17 @@
 package com.carsharing.app.web;
 
+import com.carsharing.app.dto.RequestsForDriverDto;
+import com.carsharing.app.dto.RequestsForPassengerDto;
+import com.carsharing.app.exceptions.PassengerNotFoundException;
 import com.carsharing.app.model.Ride;
+import com.carsharing.app.service.RequestService;
 import com.carsharing.app.service.RideService;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,6 +21,8 @@ import java.util.List;
 @AllArgsConstructor
 public class PassengerController {
     private final RideService rideService;
+
+    private final RequestService requestService;
 
     @GetMapping("/search")
     public ResponseEntity<List<Ride>> searchRides(
@@ -33,9 +38,16 @@ public class PassengerController {
 
     // see all future rides
 
-    // sending request to be added to a ride
 
     // see all sent requests and their status
-
+    @GetMapping("/requests/{pasengerId}")
+    public ResponseEntity<?> getRequestsForPassenger(@PathVariable Long pasengerId){
+        try{
+            RequestsForPassengerDto requestsForPassengerDto = this.requestService.getRequestsForPassenger(pasengerId);
+            return ResponseEntity.ok(requestsForPassengerDto);
+        }catch (PassengerNotFoundException ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+        }
+    }
 
 }

@@ -21,7 +21,7 @@ public class RidesController {
 
     // past rides and current rides different endpoints
 
-    @GetMapping("pastRidesForDriver/{driverId}")
+    @GetMapping("/pastRidesForDriver/{driverId}")
     public ResponseEntity<?> getPastRidesForDriver(@PathVariable Long driverId) {
         try {
             RidesForDriverResponseDto ridesDto = rideService.pastRidesForDriver(driverId);
@@ -30,10 +30,10 @@ public class RidesController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
         }
     }
-    @GetMapping("incomingRidesForDriver/{driverId}")
+    @GetMapping("/incomingRidesForDriver/{driverId}")
     public ResponseEntity<?> getIncomingRidesForDriver(@PathVariable Long driverId) {
         try {
-            RidesForDriverResponseDto ridesDto = rideService.pastRidesForDriver(driverId);
+            RidesForDriverResponseDto ridesDto = rideService.incomingRidesForDriver(driverId);
             return ResponseEntity.ok(ridesDto);
         } catch (DriverNotFoundException ex) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);

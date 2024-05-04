@@ -4,10 +4,13 @@ import com.carsharing.app.enums.RideStatusEnum;
 import com.carsharing.app.model.Driver;
 import com.carsharing.app.model.Passenger;
 import com.carsharing.app.model.Ride;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
+@Getter
+@Setter
 public class RideResponseDto {
 
     private Long id;

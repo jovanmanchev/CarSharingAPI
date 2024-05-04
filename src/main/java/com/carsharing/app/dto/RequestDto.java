@@ -1,8 +1,16 @@
 package com.carsharing.app.dto;
 
+import com.carsharing.app.enums.RequestStatusEnum;
 import com.carsharing.app.model.Passenger;
+import com.carsharing.app.model.Request;
 import com.carsharing.app.model.Ride;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
 public class RequestDto {
 
 
@@ -10,12 +18,24 @@ public class RequestDto {
     private String passengerPhoneNumber;
     private long rideId;
 
-    public static RequestDto createRequestDto(Passenger passenger, Ride ride){
-        RequestDto requestDto = new RequestDto();
-        requestDto.passengerRating = passenger.getRating();
-        requestDto.passengerPhoneNumber = passenger.getPhoneNumber();
-        requestDto.rideId = ride.getId();
+    private String locationFrom;
+    private String locationTo;
+    private LocalDateTime timeFrom;
+    private LocalDateTime timeTo;
+    private Long requestId;
 
+    private RequestStatusEnum requestStatusEnum;
+    public static RequestDto createRequestDto(Request request) {
+        RequestDto requestDto = new RequestDto();
+        requestDto.requestId = request.getId();
+        requestDto.passengerRating = request.getPassenger().getRating();
+        requestDto.passengerPhoneNumber = request.getPassenger().getPhoneNumber();
+        requestDto.rideId = request.getRide().getId();
+        requestDto.requestStatusEnum = request.getStatus();
+        requestDto.locationFrom = request.getRide().getLocationFrom();
+        requestDto.locationTo = request.getRide().getLocationTo();
+        requestDto.timeFrom = request.getRide().getTimeFrom();
+        requestDto.timeTo = request.getRide().getTimeTo();
         return  requestDto;
     }
 
