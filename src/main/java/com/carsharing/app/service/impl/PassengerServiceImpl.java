@@ -27,6 +27,7 @@ public class PassengerServiceImpl implements PassengerService {
         passengerDto.setPhoneNumber(passenger.getPhoneNumber());
         passengerDto.setFirstName(passenger.getUser().getFirstName());
         passengerDto.setLastName(passenger.getUser().getLastName());
+        passengerDto.setBio(passenger.getBio());
         return passengerDto;
     }
 
@@ -43,6 +44,7 @@ public class PassengerServiceImpl implements PassengerService {
         passengerDto.setPhoneNumber(passenger.getPhoneNumber());
         passengerDto.setFirstName(passenger.getUser().getFirstName());
         passengerDto.setLastName(passenger.getUser().getLastName());
+        passengerDto.setBio(passenger.getBio());
         return passengerDto;
     }
 }
