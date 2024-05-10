@@ -1,9 +1,11 @@
 package com.carsharing.app.web;
 
+import com.carsharing.app.dto.PassengerDto;
 import com.carsharing.app.dto.RequestsForDriverDto;
 import com.carsharing.app.dto.RequestsForPassengerDto;
 import com.carsharing.app.exceptions.PassengerNotFoundException;
 import com.carsharing.app.model.Ride;
+import com.carsharing.app.service.PassengerService;
 import com.carsharing.app.service.RequestService;
 import com.carsharing.app.service.RideService;
 import lombok.AllArgsConstructor;
@@ -23,6 +25,8 @@ public class PassengerController {
     private final RideService rideService;
 
     private final RequestService requestService;
+
+    private final PassengerService passengerService;
 
     @GetMapping("/search")
     public ResponseEntity<List<Ride>> searchRides(
@@ -45,6 +49,16 @@ public class PassengerController {
         try{
             RequestsForPassengerDto requestsForPassengerDto = this.requestService.getRequestsForPassenger(pasengerId);
             return ResponseEntity.ok(requestsForPassengerDto);
+        }catch (PassengerNotFoundException ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+        }
+    }
+
+    @GetMapping("/passenger/{passengerId}")
+    public ResponseEntity<?> getPassenger(@PathVariable Long passengerId){
+        try{
+            PassengerDto passengerDto = this.passengerService.getPassengerById(passengerId);
+            return ResponseEntity.ok(passengerDto);
         }catch (PassengerNotFoundException ex){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
         }
