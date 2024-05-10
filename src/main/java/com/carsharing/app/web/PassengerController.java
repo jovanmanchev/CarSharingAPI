@@ -1,8 +1,6 @@
 package com.carsharing.app.web;
 
-import com.carsharing.app.dto.PassengerDto;
-import com.carsharing.app.dto.RequestsForDriverDto;
-import com.carsharing.app.dto.RequestsForPassengerDto;
+import com.carsharing.app.dto.*;
 import com.carsharing.app.exceptions.PassengerNotFoundException;
 import com.carsharing.app.model.Ride;
 import com.carsharing.app.service.PassengerService;
@@ -60,6 +58,17 @@ public class PassengerController {
             PassengerDto passengerDto = this.passengerService.getPassengerById(passengerId);
             return ResponseEntity.ok(passengerDto);
         }catch (PassengerNotFoundException ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+        }
+    }
+    @PostMapping("/update/{passengerId}")
+    public ResponseEntity<?> updatePassenger(@RequestBody PassengerRequestDto passengerRequestDto, @PathVariable Long passengerId) {
+        try{
+            PassengerDto passengerDto = this.passengerService.updatePassenger(passengerRequestDto, passengerId);
+            return new ResponseEntity<>(passengerDto, HttpStatus.CREATED);
+        }
+
+        catch (PassengerNotFoundException ex){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
         }
     }
