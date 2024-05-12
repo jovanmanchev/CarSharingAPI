@@ -24,6 +24,8 @@ public class RequestDto {
     private LocalDateTime timeTo;
     private Long requestId;
 
+    private Long driverId;
+
     private RequestStatusEnum requestStatusEnum;
     public static RequestDto createRequestDto(Request request) {
         RequestDto requestDto = new RequestDto();
@@ -36,6 +38,7 @@ public class RequestDto {
         requestDto.locationTo = request.getRide().getLocationTo();
         requestDto.timeFrom = request.getRide().getTimeFrom();
         requestDto.timeTo = request.getRide().getTimeTo();
+        requestDto.driverId = request.getRide().getDriver().getId();
         return  requestDto;
     }
 

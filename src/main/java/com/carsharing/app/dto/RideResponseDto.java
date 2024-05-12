@@ -31,6 +31,9 @@ public class RideResponseDto {
 
     private RideStatusEnum rideStatus;
 
+    private String driverNameSurname;
+
+    private String driverBio;
     public static RideResponseDto createRideResponseDto(Ride ride){
         RideResponseDto rideResponseDto = new RideResponseDto();
 
@@ -47,7 +50,8 @@ public class RideResponseDto {
         rideResponseDto.smoking = ride.isSmoking();
         rideResponseDto.music = ride.isMusic();
         rideResponseDto.rideStatus = ride.getRideStatus();
-
+        rideResponseDto.driverBio = ride.getDriver().getBio();
+        rideResponseDto.driverNameSurname = ride.getDriver().getUser().getFirstName() + " " + ride.getDriver().getUser().getLastName();
         return rideResponseDto;
 
     }

@@ -26,4 +26,6 @@ public interface RideService {
     RidesForDriverResponseDto incomingRidesForDriver(Long driverId) throws DriverNotFoundException;
     List<RideResponseDto> getAllRides();
 
+    RideResponseDto getDetailsForRide(Long id);
+
 }

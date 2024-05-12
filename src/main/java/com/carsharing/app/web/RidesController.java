@@ -47,4 +47,13 @@ public class RidesController {
     public ResponseEntity<List<RideResponseDto>> getRides(){
         return ResponseEntity.ok(rideService.getAllRides());
     }
+
+    @GetMapping("/getRideDetails/{rideId}")
+    public ResponseEntity<RideResponseDto> getRideDetails(@PathVariable Long rideId){
+        try{
+            return ResponseEntity.ok(rideService.getDetailsForRide(rideId));
+        }catch (RuntimeException ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+        }
+    }
 }

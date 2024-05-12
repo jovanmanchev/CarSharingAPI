@@ -140,5 +140,12 @@ public class RideServiceImpl implements RideService {
                 .map(RideResponseDto::createRideResponseDto).collect(Collectors.toList());
     }
 
+    @Override
+    public RideResponseDto getDetailsForRide(Long id) {
+        Ride ride = rideRepository.findById(id).orElseThrow(() -> new RuntimeException("Ride not found"));
+
+        return RideResponseDto.createRideResponseDto(ride);
+    }
+
 
 }

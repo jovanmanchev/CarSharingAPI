@@ -1,10 +1,10 @@
 package com.carsharing.app.web;
 
-import com.carsharing.app.dto.RideCreationDto;
-import com.carsharing.app.dto.RideResponseDto;
-import com.carsharing.app.dto.RidesForDriverResponseDto;
+import com.carsharing.app.dto.*;
 import com.carsharing.app.exceptions.DriverNotFoundException;
+import com.carsharing.app.exceptions.PassengerNotFoundException;
 import com.carsharing.app.model.Ride;
+import com.carsharing.app.service.DriverService;
 import com.carsharing.app.service.RideService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class DriverController {
     private final RideService rideService;
+    private  final DriverService driverService;
 
     @GetMapping("/rides/{driverId}")
     public ResponseEntity<List<Ride>> getAllRidesForDriver(@PathVariable Long driverId){
@@ -48,5 +49,28 @@ public class DriverController {
         rideService.deleteRide(rideId,driverId);
         return ResponseEntity.noContent().build();
     }
+
+
+    @GetMapping("/driver/{driverId}")
+    public ResponseEntity<?> getPassenger(@PathVariable Long driverId){
+        try{
+            DriverDto driverdto = this.driverService.getDriverById(driverId);
+            return ResponseEntity.ok(driverdto);
+        }catch (DriverNotFoundException ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+        }
+    }
+    @PostMapping("/update/{driverId}")
+    public ResponseEntity<?> updatePassenger(@RequestBody DriverRequestDto driverRequestDto, @PathVariable Long driverId) {
+        try{
+            DriverDto driverdto = this.driverService.updatePassenger(driverRequestDto, driverId);
+            return new ResponseEntity<>(driverdto, HttpStatus.CREATED);
+        }
+
+        catch (DriverNotFoundException ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+        }
+    }
+
 
 }
