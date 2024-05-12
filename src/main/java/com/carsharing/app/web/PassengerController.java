@@ -27,12 +27,12 @@ public class PassengerController {
     private final PassengerService passengerService;
 
     @GetMapping("/search")
-    public ResponseEntity<List<Ride>> searchRides(
+    public ResponseEntity<List<RideResponseDto>> searchRides(
             @RequestParam String startLocation,
             @RequestParam String destination,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime departure) {
 
-        List<Ride> rides = rideService.searchRides(startLocation, destination, departure);
+        List<RideResponseDto> rides = rideService.searchRides(startLocation, destination, departure);
         return ResponseEntity.ok(rides);
     }
 

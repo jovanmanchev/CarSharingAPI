@@ -19,10 +19,11 @@ public interface RideService {
 
     public void deleteRide(Long rideId, Long driverId);
 
-    public List<Ride> searchRides(String startLocation, String destination, LocalDateTime departure);
+    public List<RideResponseDto> searchRides(String startLocation, String destination, LocalDateTime departure);
 
     RidesForDriverResponseDto pastRidesForDriver(Long driverId) throws DriverNotFoundException;
 
     RidesForDriverResponseDto incomingRidesForDriver(Long driverId) throws DriverNotFoundException;
+    List<RideResponseDto> getAllRides();
 
 }

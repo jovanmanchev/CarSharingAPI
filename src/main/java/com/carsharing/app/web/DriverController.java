@@ -28,8 +28,13 @@ public class DriverController {
 
     @PostMapping("/createRide/{driverId}")
     public ResponseEntity<Ride> createRide(@RequestBody RideCreationDto rideDto, @PathVariable Long driverId) {
-        Ride ride = rideService.createRide(rideDto, driverId);
-        return new ResponseEntity<>(ride, HttpStatus.CREATED);
+        try{
+            Ride ride = rideService.createRide(rideDto, driverId);
+            return new ResponseEntity<>(ride, HttpStatus.CREATED);
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+        }
+
     }
 
     @PutMapping("/{rideId}/{driverId}")

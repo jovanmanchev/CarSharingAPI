@@ -1,5 +1,6 @@
 package com.carsharing.app.web;
 
+import com.carsharing.app.dto.RideResponseDto;
 import com.carsharing.app.dto.RidesForDriverResponseDto;
 import com.carsharing.app.exceptions.DriverNotFoundException;
 import com.carsharing.app.service.RideService;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 
 @RestController
@@ -38,5 +41,10 @@ public class RidesController {
         } catch (DriverNotFoundException ex) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
         }
+    }
+
+    @GetMapping("/getRides")
+    public ResponseEntity<List<RideResponseDto>> getRides(){
+        return ResponseEntity.ok(rideService.getAllRides());
     }
 }

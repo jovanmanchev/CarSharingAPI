@@ -6,6 +6,7 @@ import com.carsharing.app.dto.RidesForDriverResponseDto;
 import com.carsharing.app.enums.RideStatusEnum;
 import com.carsharing.app.exceptions.DriverNotFoundException;
 import com.carsharing.app.model.Driver;
+import com.carsharing.app.model.Passenger;
 import com.carsharing.app.model.Ride;
 import com.carsharing.app.repository.DriverRepository;
 import com.carsharing.app.repository.RideRepository;
@@ -81,8 +82,11 @@ public class RideServiceImpl implements RideService {
 
     // Passenger Functionalities
     @Override
-    public List<Ride> searchRides(String startLocation, String destination, LocalDateTime departure) {
-        return rideRepository.findAllByLocationFromAndLocationToAndTimeFromGreaterThanEqual(startLocation,destination,departure);
+    public List<RideResponseDto> searchRides(String startLocation, String destination, LocalDateTime departure) {
+        return rideRepository.findAllByLocationFromAndLocationToAndTimeFromGreaterThanEqual(startLocation,destination,departure)
+                .stream()
+                .map(RideResponseDto::createRideResponseDto)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -126,6 +130,14 @@ public class RideServiceImpl implements RideService {
         ridesForDriverResponseDto.ridesForDriver = new ArrayList<>(incomingRidesForDriver);
 
         return ridesForDriverResponseDto;
+    }
+
+    @Override
+    public List<RideResponseDto> getAllRides() {
+
+        return this.rideRepository.findAll()
+                .stream()
+                .map(RideResponseDto::createRideResponseDto).collect(Collectors.toList());
     }
 
 

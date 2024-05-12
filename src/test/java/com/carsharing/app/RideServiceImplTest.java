@@ -1,6 +1,7 @@
 package com.carsharing.app;
 
 import com.carsharing.app.dto.RideCreationDto;
+import com.carsharing.app.dto.RideResponseDto;
 import com.carsharing.app.dto.RidesForDriverResponseDto;
 import com.carsharing.app.enums.RideStatusEnum;
 import com.carsharing.app.exceptions.DriverNotFoundException;
@@ -201,7 +202,7 @@ public class RideServiceImplTest {
                 .thenReturn(expectedRides);
 
         // Execution
-        List<Ride> result = rideService.searchRides(startLocation, destination, departure);
+        List<RideResponseDto> result = rideService.searchRides(startLocation, destination, departure);
 
         // Verification
         assertNotNull(result);
@@ -221,7 +222,7 @@ public class RideServiceImplTest {
                 .thenReturn(Arrays.asList());
 
         // Execution
-        List<Ride> result = rideService.searchRides(startLocation, destination, departure);
+        List<RideResponseDto> result = rideService.searchRides(startLocation, destination, departure);
 
         // Verification
         assertNotNull(result);

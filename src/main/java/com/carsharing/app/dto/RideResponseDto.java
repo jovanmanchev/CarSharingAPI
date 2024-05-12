@@ -21,8 +21,8 @@ public class RideResponseDto {
     private LocalDateTime timeTo;
     private int pricePerPerson;
 
-    private Driver driver;
-    private List<Passenger> passengers;
+    //private Driver driver;
+   // private List<Passenger> passengers;
 
     private boolean chattiness;
     private boolean pets;
@@ -40,8 +40,8 @@ public class RideResponseDto {
         rideResponseDto.timeFrom = ride.getTimeFrom();
         rideResponseDto.timeTo = ride.getTimeTo();
         rideResponseDto.pricePerPerson = ride.getPricePerPerson();
-        rideResponseDto.driver = ride.getDriver();
-        rideResponseDto.passengers = ride.getPassengers();
+       // rideResponseDto.driver = ride.getDriver();
+       // rideResponseDto.passengers = ride.getPassengers();
         rideResponseDto.chattiness = ride.isChattiness();
         rideResponseDto.pets = ride.isPets();
         rideResponseDto.smoking = ride.isSmoking();
