@@ -37,8 +37,26 @@ public class PassengerController {
     }
 
     // see all past rides
+    @GetMapping("/past-rides/{passengerId}")
+    public ResponseEntity<List<RideResponseDto>> pastRidesPassenger (@PathVariable Long passengerId){
+        try {
+            List<RideResponseDto> pastRides = rideService.pastRidesForPassenger(passengerId);
+            return ResponseEntity.ok(pastRides);
+        } catch (PassengerNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+        }
+    }
 
     // see all future rides
+    @GetMapping("/upcoming-rides/{passengerId}")
+    public ResponseEntity<List<RideResponseDto>> upcomingRidesPassenger (@PathVariable Long passengerId){
+        try {
+            List<RideResponseDto> upcomingRides = rideService.upcomingRidesForPassenger(passengerId);
+            return ResponseEntity.ok(upcomingRides);
+        } catch (PassengerNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+        }
+    }
 
 
     // see all sent requests and their status

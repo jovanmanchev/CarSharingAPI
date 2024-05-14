@@ -277,7 +277,7 @@ public class RideServiceImplTest {
                 .thenReturn(rides);
 
         // Execution
-        RidesForDriverResponseDto result = rideService.incomingRidesForDriver(driverId);
+        RidesForDriverResponseDto result = rideService.upcomingRidesForDriver(driverId);
 
         // Verification
         assertNotNull(result);
@@ -292,7 +292,7 @@ public class RideServiceImplTest {
         when(driverRepository.findById(driverId)).thenReturn(Optional.empty());
 
         // Execution & Verification
-        assertThrows(DriverNotFoundException.class, () -> rideService.incomingRidesForDriver(driverId));
+        assertThrows(DriverNotFoundException.class, () -> rideService.upcomingRidesForDriver(driverId));
     }
 
     private Ride createMockRide(Long rideId, Driver driver) {

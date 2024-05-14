@@ -36,7 +36,7 @@ public class RidesController {
     @GetMapping("/incomingRidesForDriver/{driverId}")
     public ResponseEntity<?> getIncomingRidesForDriver(@PathVariable Long driverId) {
         try {
-            RidesForDriverResponseDto ridesDto = rideService.incomingRidesForDriver(driverId);
+            RidesForDriverResponseDto ridesDto = rideService.upcomingRidesForDriver(driverId);
             return ResponseEntity.ok(ridesDto);
         } catch (DriverNotFoundException ex) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);

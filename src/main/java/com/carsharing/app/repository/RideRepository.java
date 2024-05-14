@@ -20,5 +20,7 @@ public interface RideRepository extends JpaRepository<Ride, Long> {
 
     List<Ride> findAllByDriverAndTimeFromGreaterThanEqual(Driver driver, LocalDateTime timeFrom);
 
+    List<Ride> findAllByPassengersContainingAndTimeFromLessThan (Passenger passenger, LocalDateTime timeFrom);
 
+    List<Ride> findAllByPassengersContainingAndTimeFromGreaterThanEqual (Passenger passenger, LocalDateTime timeFrom);
 }

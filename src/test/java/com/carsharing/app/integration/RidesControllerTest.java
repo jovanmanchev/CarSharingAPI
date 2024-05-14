@@ -4,7 +4,6 @@ package com.carsharing.app.integration;
 import com.carsharing.app.dto.RidesForDriverResponseDto;
 import com.carsharing.app.exceptions.DriverNotFoundException;
 import com.carsharing.app.service.RideService;
-import com.carsharing.app.web.RequestsController;
 import com.carsharing.app.web.RidesController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +55,7 @@ public class RidesControllerTest {
         Long driverId = 1L;
         RidesForDriverResponseDto ridesDto = new RidesForDriverResponseDto();
 
-        when(rideService.incomingRidesForDriver(driverId)).thenReturn(ridesDto);
+        when(rideService.upcomingRidesForDriver(driverId)).thenReturn(ridesDto);
 
         mockMvc.perform(get("/api/rides/incomingRidesForDriver/{driverId}", driverId))
                 .andExpect(status().isOk())
@@ -65,7 +64,7 @@ public class RidesControllerTest {
     @Test
     public void getIncomingRidesForDriver_DriverNotFound() throws Exception {
         Long driverId = 1L;
-        when(rideService.incomingRidesForDriver(driverId)).thenThrow(new DriverNotFoundException("Driver not found"));
+        when(rideService.upcomingRidesForDriver(driverId)).thenThrow(new DriverNotFoundException("Driver not found"));
 
         mockMvc.perform(get("/api/rides/incomingRidesForDriver/{driverId}", driverId))
                 .andExpect(status().isBadRequest())
