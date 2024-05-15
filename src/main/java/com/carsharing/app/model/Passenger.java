@@ -24,6 +24,8 @@ public class Passenger {
     private float rating;
     private String phoneNumber;
 
+    private String bio;
+
     @OneToMany(mappedBy = "passenger")
     private List<Request> requests;
 

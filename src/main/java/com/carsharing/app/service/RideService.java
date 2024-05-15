@@ -4,7 +4,7 @@ import com.carsharing.app.dto.RideCreationDto;
 import com.carsharing.app.dto.RideResponseDto;
 import com.carsharing.app.dto.RidesForDriverResponseDto;
 import com.carsharing.app.exceptions.DriverNotFoundException;
-import com.carsharing.app.model.Driver;
+import com.carsharing.app.exceptions.PassengerNotFoundException;
 import com.carsharing.app.model.Ride;
 
 import java.time.LocalDateTime;
@@ -19,10 +19,17 @@ public interface RideService {
 
     public void deleteRide(Long rideId, Long driverId);
 
-    public List<Ride> searchRides(String startLocation, String destination, LocalDateTime departure);
+    public List<RideResponseDto> searchRides(String startLocation, String destination, LocalDateTime departure);
 
     RidesForDriverResponseDto pastRidesForDriver(Long driverId) throws DriverNotFoundException;
 
-    RidesForDriverResponseDto incomingRidesForDriver(Long driverId) throws DriverNotFoundException;
+    List<RideResponseDto> upcomingRidesForPassenger(Long passengerId) throws PassengerNotFoundException;
+
+    List<RideResponseDto> pastRidesForPassenger(Long passengerId) throws PassengerNotFoundException;
+
+    RidesForDriverResponseDto upcomingRidesForDriver(Long driverId) throws DriverNotFoundException;
+    List<RideResponseDto> getAllRides();
+
+    RideResponseDto getDetailsForRide(Long id);
 
 }

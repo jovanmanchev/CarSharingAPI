@@ -5,9 +5,12 @@ import com.carsharing.app.dto.RideResponseDto;
 import com.carsharing.app.dto.RidesForDriverResponseDto;
 import com.carsharing.app.enums.RideStatusEnum;
 import com.carsharing.app.exceptions.DriverNotFoundException;
+import com.carsharing.app.exceptions.PassengerNotFoundException;
 import com.carsharing.app.model.Driver;
+import com.carsharing.app.model.Passenger;
 import com.carsharing.app.model.Ride;
 import com.carsharing.app.repository.DriverRepository;
+import com.carsharing.app.repository.PassengerRepository;
 import com.carsharing.app.repository.RideRepository;
 import com.carsharing.app.service.RideService;
 import lombok.AllArgsConstructor;
@@ -24,6 +27,7 @@ public class RideServiceImpl implements RideService {
 
     private final RideRepository rideRepository;
     private final DriverRepository driverRepository;
+    private final PassengerRepository passengerRepository;
 
     // Driver Functionalities - CRUD
     @Override
@@ -81,8 +85,11 @@ public class RideServiceImpl implements RideService {
 
     // Passenger Functionalities
     @Override
-    public List<Ride> searchRides(String startLocation, String destination, LocalDateTime departure) {
-        return rideRepository.findAllByLocationFromAndLocationToAndTimeFromGreaterThanEqual(startLocation,destination,departure);
+    public List<RideResponseDto> searchRides(String startLocation, String destination, LocalDateTime departure) {
+        return rideRepository.findAllByLocationFromAndLocationToAndTimeFromGreaterThanEqual(startLocation,destination,departure)
+                .stream()
+                .map(RideResponseDto::createRideResponseDto)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -109,7 +116,33 @@ public class RideServiceImpl implements RideService {
     }
 
     @Override
-    public RidesForDriverResponseDto incomingRidesForDriver(Long driverId) throws DriverNotFoundException {
+    public List<RideResponseDto> upcomingRidesForPassenger(Long passengerId) throws PassengerNotFoundException {
+        Passenger passenger = passengerRepository.findById(passengerId).orElseThrow(() -> new PassengerNotFoundException("Passenger is not found"));
+
+        LocalDateTime now = LocalDateTime.now();
+
+        List<RideResponseDto> upcomingRides = rideRepository.findAllByPassengersContainingAndTimeFromGreaterThanEqual(passenger, now)
+                .stream()
+                .map(RideResponseDto::createRideResponseDto).toList();
+
+        return upcomingRides;
+    }
+
+    @Override
+    public List<RideResponseDto> pastRidesForPassenger(Long passengerId) throws PassengerNotFoundException {
+        Passenger passenger = passengerRepository.findById(passengerId).orElseThrow(() -> new PassengerNotFoundException("Passenger is not found"));
+
+        LocalDateTime now = LocalDateTime.now();
+
+        List<RideResponseDto> pastRides = rideRepository.findAllByPassengersContainingAndTimeFromLessThan(passenger, now)
+                .stream()
+                .map(RideResponseDto::createRideResponseDto).toList();
+
+        return pastRides;
+    }
+
+    @Override
+    public RidesForDriverResponseDto upcomingRidesForDriver(Long driverId) throws DriverNotFoundException {
 
         Driver driver = driverRepository.findById(driverId)
                 .orElseThrow(() -> new DriverNotFoundException("Driver is not found"));
@@ -126,6 +159,21 @@ public class RideServiceImpl implements RideService {
         ridesForDriverResponseDto.ridesForDriver = new ArrayList<>(incomingRidesForDriver);
 
         return ridesForDriverResponseDto;
+    }
+
+    @Override
+    public List<RideResponseDto> getAllRides() {
+
+        return this.rideRepository.findAll()
+                .stream()
+                .map(RideResponseDto::createRideResponseDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public RideResponseDto getDetailsForRide(Long id) {
+        Ride ride = rideRepository.findById(id).orElseThrow(() -> new RuntimeException("Ride not found"));
+
+        return RideResponseDto.createRideResponseDto(ride);
     }
 
 

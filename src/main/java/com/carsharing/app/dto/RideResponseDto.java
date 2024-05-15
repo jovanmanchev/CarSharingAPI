@@ -4,10 +4,13 @@ import com.carsharing.app.enums.RideStatusEnum;
 import com.carsharing.app.model.Driver;
 import com.carsharing.app.model.Passenger;
 import com.carsharing.app.model.Ride;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
+@Getter
+@Setter
 public class RideResponseDto {
 
     private Long id;
@@ -18,8 +21,8 @@ public class RideResponseDto {
     private LocalDateTime timeTo;
     private int pricePerPerson;
 
-    private Driver driver;
-    private List<Passenger> passengers;
+    //private Driver driver;
+   // private List<Passenger> passengers;
 
     private boolean chattiness;
     private boolean pets;
@@ -28,6 +31,9 @@ public class RideResponseDto {
 
     private RideStatusEnum rideStatus;
 
+    private String driverNameSurname;
+
+    private String driverBio;
     public static RideResponseDto createRideResponseDto(Ride ride){
         RideResponseDto rideResponseDto = new RideResponseDto();
 
@@ -37,14 +43,15 @@ public class RideResponseDto {
         rideResponseDto.timeFrom = ride.getTimeFrom();
         rideResponseDto.timeTo = ride.getTimeTo();
         rideResponseDto.pricePerPerson = ride.getPricePerPerson();
-        rideResponseDto.driver = ride.getDriver();
-        rideResponseDto.passengers = ride.getPassengers();
+       // rideResponseDto.driver = ride.getDriver();
+       // rideResponseDto.passengers = ride.getPassengers();
         rideResponseDto.chattiness = ride.isChattiness();
         rideResponseDto.pets = ride.isPets();
         rideResponseDto.smoking = ride.isSmoking();
         rideResponseDto.music = ride.isMusic();
         rideResponseDto.rideStatus = ride.getRideStatus();
-
+        rideResponseDto.driverBio = ride.getDriver().getBio();
+        rideResponseDto.driverNameSurname = ride.getDriver().getUser().getFirstName() + " " + ride.getDriver().getUser().getLastName();
         return rideResponseDto;
 
     }

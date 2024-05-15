@@ -30,13 +30,35 @@ public class RequestsController {
         }
     }
 
-    // handle requests from passengers (add to ride or ignore)
+    // sending request to be added to a ride
     @PostMapping("requestRide")
     public ResponseEntity<?> requestForRide(@RequestBody RequestCreateDto requestCreateDto ) {
         try {
             RequestCreateResponseDto requestCreateResponseDto = this.requestService.makeRequest(requestCreateDto);
             return ResponseEntity.ok(requestCreateResponseDto);
         } catch (RideNotFoundException | PassengerNotFoundException ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+        }
+    }
+
+
+    // handle requests from passengers (add to ride or ignore)
+    @PostMapping("acceptRequest/{requestId}/{driverId}")
+    public ResponseEntity<?> acceptRequest(@PathVariable Long requestId, @PathVariable Long driverId) {
+        try {
+            RequestAcceptDto requestAcceptDto = this.requestService.acceptRequest(requestId, driverId);
+            return ResponseEntity.ok(requestAcceptDto);
+        } catch (RuntimeException ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+        }
+    }
+
+    @PostMapping("ignoreRequest/{requestId}/{driverId}")
+    public ResponseEntity<?> ignoreRequest(@PathVariable Long requestId, @PathVariable Long driverId) {
+        try {
+            RequestAcceptDto requestAcceptDto = this.requestService.ignoreRequest(requestId, driverId);
+            return ResponseEntity.ok(requestAcceptDto);
+        } catch (RuntimeException ex) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
         }
     }
