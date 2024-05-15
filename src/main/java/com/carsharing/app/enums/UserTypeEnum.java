@@ -1,5 +1,7 @@
 package com.carsharing.app.enums;
 
 public enum UserTypeEnum {
-    ADMIN, DRIVER, PASSENGER
+    ROLE_ADMIN,
+    ROLE_DRIVER,
+    ROLE_PASSENGER
 }

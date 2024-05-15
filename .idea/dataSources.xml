@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="carsharingdb@localhost" uuid="e0a8f772-9054-407e-9a1b-92fb5adbad87">
     <data-source source="LOCAL" name="database-1@localhost" uuid="86283a4c-0d62-4aab-8528-40ba258f8d11">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
