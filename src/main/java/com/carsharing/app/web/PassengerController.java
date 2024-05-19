@@ -52,8 +52,10 @@ public class PassengerController {
     public ResponseEntity<List<RideResponseDto>> upcomingRidesPassenger (@PathVariable Long passengerId){
         try {
             List<RideResponseDto> upcomingRides = rideService.upcomingRidesForPassenger(passengerId);
+
             return ResponseEntity.ok(upcomingRides);
         } catch (PassengerNotFoundException e) {
+            System.out.println(e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
         }
     }

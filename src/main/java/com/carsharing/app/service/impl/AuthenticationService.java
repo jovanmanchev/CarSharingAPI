@@ -34,13 +34,16 @@ public class AuthenticationService {
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
+                .phoneNumber(request.getPhone())
                 .encryptedPassword(passwordEncoder.encode(request.getPassword()))
                 .userTypeEnum(UserTypeEnum.valueOf(request.getType().toUpperCase()))
                 .build();
 
         user = userService.save(user);
         var jwt = jwtService.generateToken(user);
-        return JwtAuthenticationResponse.builder().token(jwt).build();
+        return JwtAuthenticationResponse.builder().role(user.getUserTypeEnum().toString())
+                .id(user.getId())
+                .firstName(user.getFirstName()).lastName(user.getLastName()).token(jwt).build();
     }
 
 
@@ -50,7 +53,10 @@ public class AuthenticationService {
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
         var jwt = jwtService.generateToken(user);
-        return JwtAuthenticationResponse.builder().token(jwt).build();
+        return JwtAuthenticationResponse.builder().role(user.getUserTypeEnum().toString())
+                .firstName(user.getFirstName()).lastName(user.getLastName())
+                .id(user.getId())
+                .token(jwt).build();
     }
 
 }

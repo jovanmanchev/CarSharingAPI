@@ -23,6 +23,7 @@ public class User implements UserDetails {
 
     private String firstName;
     private String lastName;
+    private String phoneNumber;
     private int age;
     @Column(nullable = false, unique = true)
     @NonNull

@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Driver {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
     @OneToOne

@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Passenger {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
     @OneToOne
