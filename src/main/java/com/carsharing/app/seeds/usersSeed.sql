@@ -1,8 +1,7 @@
 TRUNCATE TABLE users CASCADE;
 
-INSERT INTO users (id, first_name, last_name, age, email, encrypted_password, type)
+INSERT INTO users (id, first_name, last_name, age, email, encrypted_password, user_type_enum)
 VALUES
-    (1, 'Admin', 'Admin', 23, 'admin@admin.com', '#Admin123', 'ROLE_ADMIN'),
     (2, 'Maja', 'Spasovska', 32, 'maja.spasovska@gmail.com', '#Maja123', 'ROLE_PASSENGER'),
     (3, 'Eva', 'Milosevska', 28, 'eva.milosevska@hotamil.com', '#Eva123', 'ROLE_PASSENGER'),
     (4, 'Stefan', 'Gjorev', 49, 'stefan.gjorev@gmail.com', '#Stefan123', 'ROLE_PASSENGER'),
